@@ -1,6 +1,8 @@
 from flask import jsonify
 from flask_restful import Resource, reqparse
 
+from validate_docbr import CPF, CNPJ
+
 from ..models import db, Transaction, Store, Client
 
 parser = reqparse.RequestParser()
@@ -17,6 +19,9 @@ class TransactionApi(Resource):
         cnpj = args['estabelecimento']
         cpf = args['cliente']
         description = args['descricao']
+
+        if not CPF().validate(cpf) or not CNPJ().validate(cnpj):
+            return {'aceito': False}, 202
 
         store = Store.query.filter_by(cnpj=cnpj).first()
         if not store:
