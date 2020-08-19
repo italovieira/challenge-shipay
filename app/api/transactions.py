@@ -5,11 +5,14 @@ from validate_docbr import CPF, CNPJ
 
 from ..models import db, Transaction, Store, Client
 
+parser = reqparse.RequestParser()
+parser.add_argument('cnpj', required=True)
 
 class TransactionsApi(Resource):
 
     def get(self):
-        cnpj = request.args.get('cnpj')
+        args = parser.parse_args()
+        cnpj = args['cnpj']
 
         if not CNPJ().validate(cnpj):
             return {'mensagem': 'CNPJ é inválido'}, 202
