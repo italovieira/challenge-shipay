@@ -9,6 +9,6 @@ api = Api()
 def configure_api(app):
     api.add_resource(IndexApi, '/')
     api.add_resource(TransactionApi, '/transacao')
-    api.add_resource(TransactionsApi, '/transacoes')
+    api.add_resource(TransactionsApi, '/transacoes/estabelecimento')
 
     api.init_app(app)
