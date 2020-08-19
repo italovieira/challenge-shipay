@@ -8,6 +8,7 @@ def configure(app):
     with app.app_context():
         db.create_all()
 
+    return db
 
 class Store(db.Model):
     id = db.Column(db.Integer, primary_key=True)
