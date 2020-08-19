@@ -8,7 +8,7 @@ from ..models import db, Transaction, Store, Client
 parser = reqparse.RequestParser()
 parser.add_argument('estabelecimento', required=True)
 parser.add_argument('cliente', required=True)
-parser.add_argument('valor', required=True, type=int)
+parser.add_argument('valor', required=True, type=float)
 parser.add_argument('descricao')
 
 
@@ -18,6 +18,7 @@ class TransactionApi(Resource):
         args = parser.parse_args()
         cnpj = args['estabelecimento']
         cpf = args['cliente']
+        value = args['valor']
         description = args['descricao']
 
         if not CPF().validate(cpf) or not CNPJ().validate(cnpj):
@@ -33,7 +34,7 @@ class TransactionApi(Resource):
             client = Client(cpf=cpf)
             db.session.add(client)
 
-        transaction = Transaction(description=description)
+        transaction = Transaction(value=value, description=description)
         transaction.store = store
         transaction.client = client
 
