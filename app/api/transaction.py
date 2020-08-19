@@ -8,7 +8,7 @@ from ..models import db, Transaction, Store, Client
 parser = reqparse.RequestParser()
 parser.add_argument('estabelecimento', required=True)
 parser.add_argument('cliente', required=True)
-parser.add_argument('valor', required=True)
+parser.add_argument('valor', required=True, type=int)
 parser.add_argument('descricao')
 
 
