@@ -5,6 +5,8 @@ from validate_docbr import CPF, CNPJ
 
 from ..models import db, Transaction, Store, Client
 
+from utils import extract_numbers
+
 parser = reqparse.RequestParser()
 parser.add_argument('estabelecimento', required=True)
 parser.add_argument('cliente', required=True)
@@ -23,6 +25,9 @@ class TransactionApi(Resource):
 
         if not CPF().validate(cpf) or not CNPJ().validate(cnpj):
             return {'aceito': False}, 202
+
+        cnpj = extract_numbers(cnpj)
+        cpf = extract_numbers(cpf)
 
         store = Store.query.filter_by(cnpj=cnpj).first()
         if not store:

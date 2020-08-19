@@ -8,10 +8,10 @@ db = configure_db(app)
 configure_api(app)
 c = app.test_client()
 
-store = Store(name='Nosso Restaurante de Todo Dia LTDA', cnpj='45.283.163/0001-67', owner='Fabio I.', phone='11909000300')
+store = Store(name='Nosso Restaurante de Todo Dia LTDA', cnpj='45283163000167', owner='Fabio I.', phone='11909000300')
 transaction1 = Transaction(value=590.01, description='Almoço em restaurante chique pago via Shipay!')
 transaction2 = Transaction(value=591, description='Almoço em restaurante chique pago via Shipay!')
-client = Client(cpf='094.214.930-01')
+client = Client(cpf='09421493001')
 transaction1.client = client
 transaction2.client = client
 store.transactions.append(transaction1)
@@ -59,7 +59,7 @@ def test_invalid_cpf():
 
 
 def test_get_transactions():
-    response = c.get('/transacoes?cnpj=45.283.163/0001-67')
+    response = c.get('/transacoes/estabelecimento?cnpj=45.283.163/0001-67')
 
     json_data = response.get_json()
 
