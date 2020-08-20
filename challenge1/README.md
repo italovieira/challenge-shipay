@@ -1,6 +1,4 @@
-# The Resident Zombie
-
-https://gist.github.com/akitaonrails/711b5553533d1a14364907bbcdbee677
+# Challenge 1
 
 ## Installation (via docker-compose)
 
@@ -10,12 +8,17 @@ Create a `.env` file with the variables to fit your environment
 $ cat .env
 APP_PORT=5000
 DEBUG=True
-DB_URI=postgresql://postgres:postgres@$localhost/shipay
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=localhost
+DB_NAME=shipay
+DB_URI=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}
 ```
 
 Use the following command to run the server
 
 ```sh
+$ docker-compose up -d db # to start postgres container to be ready before connect to database in app container
 $ docker-compose up
 ```
 
@@ -33,10 +36,10 @@ For testing purposes you can run
 $ docker-compose run --rm app pytest
 ```
 
-## Signup
+## Add transaction
 
 ```sh
-$ curl -H "Content-Type: application/json" -X POST http://localhost:5000/transacao \
+$ curl -H "Content-Type: application/json" -X POST http://localhost:5000/api/v1/transacao \
 -d '{
   "estabelecimento": "45.283.163/0001-67",
   "cliente": "094.214.930-01",
@@ -45,8 +48,8 @@ $ curl -H "Content-Type: application/json" -X POST http://localhost:5000/transac
 }'
 ```
 
-## Update location
+## Get transactions by store
 
 ```sh
-$ curl -H "Content-Type: application/json" -X PUT http://localhost:5000/transacoes/estabelecimento?cnpj=45.283.163/0001-67
+$ curl -H "Content-Type: application/json" -X PUT http://localhost:5000/api/v1/transacoes/estabelecimento?cnpj=45.283.163/0001-67
 ```
